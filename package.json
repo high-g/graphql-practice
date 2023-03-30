@@ -1,0 +1,25 @@
+{
+  "name": "graphql-practice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/high-g/graphql-practice.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/high-g/graphql-practice/issues"
+  },
+  "homepage": "https://github.com/high-g/graphql-practice#readme",
+  "dependencies": {
+    "apollo-server": "^3.12.0",
+    "graphql": "^16.6.0"
+  }
+}
