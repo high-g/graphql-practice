@@ -1,14 +1,27 @@
 const { ApolloServer, gql } = require('apollo-server')
 
 const typeDefs = gql`
+  type User {
+    id: ID!
+    name: String!
+    email: String!
+  }
+
   type Query {
     hello(name: String!): String
+    users: [User]
   }
 `
+
+const users = [
+  { id: '1', name: 'John Doe', email: 'john@test.com' },
+  { id: '2', name: 'Taro Suzuki', email: 'suzuki@example.com' },
+]
 
 const resolvers = {
   Query: {
     hello: () => 'Hello world!',
+    users: () => users,
   },
 }
 
