@@ -6,6 +6,14 @@ const typeDefs = gql`
     id: ID!
     name: String!
     email: String!
+    myPosts: [Post]
+  }
+
+  type Post {
+    id: ID!
+    title: String!
+    body: String!
+    userId: ID!
   }
 
   type Query {
@@ -14,6 +22,7 @@ const typeDefs = gql`
     users: [User]
     users_fetch: [User]
     user(id: ID!): User
+    posts: [Post]
   }
 `
 
@@ -32,7 +41,17 @@ const resolvers = {
       return response.data
     },
     user: async (parent, args) => {
-      const response = await axios.get(`https://jsonplaceholder.typicode.com/users/${args.id}`)
+      const userResponse = await axios.get(`https://jsonplaceholder.typicode.com/users/${args.id}`)
+      const postsResponse = await axios.get(`https://jsonplaceholder.typicode.com/posts`)
+
+      const myPosts = postsResponse.data.filter((post) => post.userId == args.id)
+      const user = Object.assign({}, userResponse.data, {
+        myPosts,
+      })
+      return user
+    },
+    posts: async () => {
+      const response = await axios.get('https://jsonplaceholder.typicode.com/posts')
       return response.data
     },
   },
