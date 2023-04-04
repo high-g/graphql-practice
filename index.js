@@ -1,5 +1,26 @@
 const { ApolloServer, gql } = require('apollo-server')
+const { RESTDataSource } = require('apollo-datasource-rest')
 const axios = require('axios')
+
+class jsonPlaceAPI extends RESTDataSource {
+  constructor() {
+    super()
+    this.baseURL = 'https://jsonplaceholder.typicode.com/'
+  }
+
+  async getUsers() {
+    const data = await this.get('/users')
+    return data
+  }
+  async getUser(id) {
+    const data = await this.get(`/users/${id}`)
+    return data
+  }
+  async getPost() {
+    const data = await this.get('/posts')
+    return data
+  }
+}
 
 const typeDefs = gql`
   type User {
@@ -34,30 +55,35 @@ const users = [
 const resolvers = {
   Query: {
     h: () => 'Hello World!',
-    hello: (parent, args) => `Hello ${args.name}!`,
+    hello: (_, args) => `Hello ${args.name}!`,
     users: () => users,
     users_fetch: async () => {
       const response = await axios.get('https://jsonplaceholder.typicode.com/users')
       return response.data
     },
-    user: async (parent, args) => {
+    user: async (_, args, { dataSources }) => {
       const userResponse = await axios.get(`https://jsonplaceholder.typicode.com/users/${args.id}`)
-      const postsResponse = await axios.get(`https://jsonplaceholder.typicode.com/posts`)
-
-      const myPosts = postsResponse.data.filter((post) => post.userId == args.id)
-      const user = Object.assign({}, userResponse.data, {
-        myPosts,
-      })
-      return user
+      return userResponse.data
     },
     posts: async () => {
       const response = await axios.get('https://jsonplaceholder.typicode.com/posts')
       return response.data
     },
   },
+  User: {
+    myPosts: async (parent) => {
+      const response = await axios.get(`https://jsonplaceholder.typicode.com/posts`)
+      const myPosts = response.data.filter((post) => post.id === parent.id)
+      return myPosts
+    },
+  },
 }
 
-const server = new ApolloServer({ typeDefs, resolvers })
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  dataSources: () => ({ jsonPlaceAPI: new jsonPlaceAPI() }),
+})
 
 server.listen().then(({ url }) => {
   console.log(`server is running on ${url}`)
