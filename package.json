@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/high-g/graphql-practice#readme",
   "dependencies": {
+    "@prisma/client": "4.12.0",
     "apollo-datasource-rest": "^3.7.0",
     "apollo-server": "^3.12.0",
     "axios": "^1.3.4",
