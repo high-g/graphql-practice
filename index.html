@@ -1,23 +1,14 @@
-<!DOCTYPE html>
-<html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <div id="app"></div>
-  </body>
-  <script>
-    async function fetchBook() {
-      const response = await fetch('http://localhost:4000', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          query: `
+<div id="app"></div>
+
+<script>
+  async function fetchBook() {
+    const response = await fetch('http://localhost:4000', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query: `
             query {
               users {
                 id
@@ -26,13 +17,12 @@
               }
             }
           `,
-        }),
-      })
+      }),
+    })
 
-      const res = await response.json()
+    const res = await response.json()
 
-      document.getElementId('app').innerHTML = `<h1>${res.data.users[0].name}</h1>`
-    }
-    fetchBook()
-  </script>
-</html>
+    document.getElementById('app').innerHTML = `<h1>${res.data.users[0].name}</h1>`
+  }
+  fetchBook()
+</script>
