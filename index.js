@@ -48,6 +48,11 @@ const typeDefs = gql`
     user(id: ID!): User
     posts: [Post]
   }
+
+  type Mutation {
+    createUser(name: String!, email: String!): User
+    updateUser(id: Int!, name: String!): User
+  }
 `
 
 const resolvers = {
@@ -68,6 +73,26 @@ const resolvers = {
     posts: async () => {
       const response = await axios.get('https://jsonplaceholder.typicode.com/posts')
       return response.data
+    },
+  },
+  Mutation: {
+    createUser: (_, args) => {
+      return prisma.user.create({
+        data: {
+          name: args.name,
+          email: args.email,
+        },
+      })
+    },
+    updateUser: (_, args) => {
+      return prisma.user.update({
+        where: {
+          id: args.id,
+        },
+        data: {
+          name: args.name,
+        },
+      })
     },
   },
   User: {
