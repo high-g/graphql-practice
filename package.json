@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "dev": "nodemon",
+    "start": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "nodemon index.js",
     "studio": "prisma studio"
   },
   "repository": {
@@ -32,6 +32,7 @@
     "@types/node": "^18.15.11",
     "nodemon": "^2.0.22",
     "prisma": "^4.12.0",
+    "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
   }
 }
