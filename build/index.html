@@ -1,0 +1,28 @@
+<div id="app">hello</div>
+
+<script>
+  async function fetchBook() {
+    const response = await fetch('http://localhost:4000', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query: `
+            query {
+              users {
+                id
+                name
+                email
+              }
+            }
+          `,
+      }),
+    })
+
+    const res = await response.json()
+
+    document.getElementById('app').innerHTML = `<h1>${res.data.users[0].name}</h1>`
+  }
+  fetchBook()
+</script>
