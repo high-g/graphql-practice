@@ -24,15 +24,14 @@ const startServer = async () => {
 
   apolloServer.applyMiddleware({ app, path: '/api' })
 
-  console.log('process.env.PORT', process.env.PORT)
-
   app.get('/', (req, res) => {
     res.send('Hello, World')
   })
 
-  httpServer.listen({ port: process.env.PORT || 4000 }, () =>
-    console.log(`Server listening on localhost:4000${apolloServer.graphqlPath}`)
-  )
+  const port = process.env.PORT || 8080
+  console.log('port', port)
+
+  httpServer.listen({ port }, () => console.log(`Server listening on port ${port}`))
 }
 
 startServer()
