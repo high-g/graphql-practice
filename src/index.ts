@@ -26,6 +26,10 @@ const startServer = async () => {
 
   console.log('process.env.PORT', process.env.PORT)
 
+  app.get('/', (req, res) => {
+    res.send('Hello, World')
+  })
+
   httpServer.listen({ port: process.env.PORT || 4000 }, () =>
     console.log(`Server listening on localhost:4000${apolloServer.graphqlPath}`)
   )
