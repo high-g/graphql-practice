@@ -28,7 +28,7 @@ const startServer = async () => {
     res.send('Hello, World')
   })
 
-  const port = process.env.PORT || 8080
+  const port = process.env.PORT || 4000
   console.log('port', port)
 
   httpServer.listen({ port }, () => console.log(`Server listening on port ${port}`))
