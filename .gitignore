@@ -3,3 +3,4 @@ yarn-error.log
 dev.db
 build/
 .DS_Store
+.env
