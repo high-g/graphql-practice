@@ -1,20 +1,27 @@
+/** @format */
+
 import { createServer } from 'http'
 import express from 'express'
 import { ApolloServer, gql } from 'apollo-server-express'
+import { PrismaClient, Prisma } from '@prisma/client'
+import { typeDefs } from './scheme'
+
+export type Context = {
+  prisma: PrismaClient<Prisma.PrismaClientOptions, never, Prisma.RejectOnNotFound | Prisma.RejectPerOperation>
+}
 
 const startServer = async () => {
   const app = express()
   const httpServer = createServer(app)
 
-  const typeDefs = gql`
-    type Query {
-      hello: String
-    }
-  `
+  const prisma = new PrismaClient()
 
   const resolvers = {
     Query: {
       hello: () => `Hello World`,
+    },
+    context: {
+      prisma,
     },
   }
 
