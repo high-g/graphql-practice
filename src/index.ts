@@ -17,16 +17,17 @@ const startServer = async () => {
 
   const prisma = new PrismaClient()
 
-  const resolvers = {
-    Query,
-    Category,
-    Book,
-    // context: {
-    //   prisma,
-    // },
-  }
-
-  const apolloServer = new ApolloServer({ typeDefs, resolvers })
+  const apolloServer = new ApolloServer({
+    typeDefs,
+    resolvers: {
+      Query,
+      Category,
+      Book,
+      // context: {
+      //   prisma,
+      // },
+    },
+  })
 
   await apolloServer.start()
 
