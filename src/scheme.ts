@@ -25,7 +25,7 @@ export const typeDefs = gql`
   }
 
   type Category {
-    id: Int!
+    id: String!
     name: String!
     books: [Book!]!
   }
