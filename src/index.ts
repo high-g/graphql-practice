@@ -5,7 +5,7 @@ import express from 'express'
 import { ApolloServer } from 'apollo-server-express'
 import { PrismaClient, Prisma } from '@prisma/client'
 import { typeDefs } from './scheme'
-import { Query } from './resolvers'
+import { Query, Category, Book } from './resolvers'
 
 export type Context = {
   prisma: PrismaClient<Prisma.PrismaClientOptions, never, Prisma.RejectOnNotFound | Prisma.RejectPerOperation>
@@ -19,6 +19,8 @@ const startServer = async () => {
 
   const resolvers = {
     Query,
+    Category,
+    Book,
     // context: {
     //   prisma,
     // },

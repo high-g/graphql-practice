@@ -21,6 +21,7 @@ export const typeDefs = gql`
     title: String!
     author: String!
     createdAt: String!
+    categoryId: String!
     category: Category!
   }
 

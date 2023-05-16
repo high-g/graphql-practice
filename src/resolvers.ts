@@ -22,3 +22,15 @@ export const Query = {
     return category
   },
 }
+
+export const Category = {
+  books: (parent: any, args: ArgsType) => {
+    return books.filter((book) => book.categoryId === parent.id)
+  },
+}
+
+export const Book = {
+  category: (parent: any, args: ArgsType) => {
+    return categories.find((category) => category.id === parent.categoryId)
+  },
+}
