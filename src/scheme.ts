@@ -20,7 +20,7 @@ export const typeDefs = gql`
     id: Int!
     title: String!
     author: String!
-    createdAt: String!
+    # createdAt: String!
     categoryId: String!
     category: Category!
   }
@@ -39,7 +39,7 @@ export const typeDefs = gql`
     id: Int!
     title: String!
     author: String!
-    createdAt: String!
+    categoryId: String!
     isRead: Boolean!
   }
 
@@ -47,7 +47,7 @@ export const typeDefs = gql`
     id: Int
     title: String
     author: String
-    createdAt: String
+    # createdAt: String
     isRead: Boolean
   }
 `
