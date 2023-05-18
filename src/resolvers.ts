@@ -6,8 +6,44 @@ type ArgsType = {
   id: number | string
 }
 
+type Book = {
+  id: number
+  title: string
+  author: string
+  createdAt: string
+  categoryId: string
+  category: Category
+  isRead: boolean
+}
+
+type Category = {
+  id: string
+  name: string
+}
+
+type argBooksType = {
+  books: Book[]
+}
+
+type argFilterType = {
+  filter: {
+    isRead: boolean
+  }
+}
+
 export const Query = {
-  books: () => books,
+  books: (_: any, { filter }: argFilterType) => {
+    let filteredBooks = books
+
+    if (filter?.isRead) {
+      filteredBooks = filteredBooks.filter((book) => {
+        return book.isRead
+      })
+    }
+
+    return filteredBooks
+  },
+  // books: () => books,
   book: (_: any, args: ArgsType) => {
     const bookId = args.id
     const book = books.find((book) => book.id === bookId)
