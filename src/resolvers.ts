@@ -1,5 +1,6 @@
 /** @format */
 
+import { Context } from './index'
 import { books, categories } from './database'
 
 type ArgType = {
@@ -10,8 +11,7 @@ type Book = {
   id: number
   title: string
   author: string
-  //createdAt: string
-  categoryId: string
+  createdAt: string
   isRead: boolean
 }
 
@@ -30,24 +30,14 @@ type AddBookInput = {
   id: number
   title: string
   author: string
-  categoryId: string
+  categoryId: number
   isRead: boolean
 }
 
 export const Query = {
-  books: (_: any, { filter }: ArgFilterType, { books }: { books: Book[] }) => {
-    console.log('[Query] books', books)
-    let filteredBooks = books
-
-    if (filter?.isRead) {
-      filteredBooks = filteredBooks.filter((book) => {
-        return book.isRead
-      })
-    }
-
-    return filteredBooks
+  books: (_: any, __: any, { prisma }: Context) => {
+    return prisma.book.findMany()
   },
-  // books: () => books,
   book: (_: any, args: ArgType) => {
     const bookId = args.id
     const book = books.find((book) => book.id === bookId)
@@ -89,7 +79,7 @@ export const Mutation = {
       isRead,
     }
 
-    books.push(newBook)
+    //books.push(newBook)
 
     return newBook
   },

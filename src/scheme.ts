@@ -12,7 +12,7 @@ export const typeDefs = gql`
 
   type Mutation {
     addBook(input: AddBookInput!): Book!
-    deleteBook(id: Int!): Book!
+    deleteBook(id: Int!): Boolean!
     updateBook(id: Int!, input: UpdateBookInput!): Book!
   }
 
@@ -20,8 +20,7 @@ export const typeDefs = gql`
     id: Int!
     title: String!
     author: String!
-    # createdAt: String!
-    categoryId: String!
+    createdAt: String!
     category: Category!
   }
 
@@ -47,7 +46,7 @@ export const typeDefs = gql`
     id: Int
     title: String
     author: String
-    # createdAt: String
+    CategoryId: Int
     isRead: Boolean
   }
 `

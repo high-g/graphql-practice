@@ -26,13 +26,13 @@ const startServer = async () => {
       Category,
       Book,
     },
-    context: {
-      books,
-      categories,
-    },
     // context: {
-    //   prisma,
+    //   books,
+    //   categories,
     // },
+    context: {
+      prisma,
+    },
   })
 
   await apolloServer.start()
