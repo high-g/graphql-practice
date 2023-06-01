@@ -6,7 +6,7 @@ import { ApolloServer } from 'apollo-server-express'
 import { PrismaClient, Prisma } from '@prisma/client'
 import { typeDefs } from './scheme'
 import { Query, Category, Book, Mutation } from './resolvers'
-import { books, categories } from './database'
+// import { books, categories } from './database'
 
 export type Context = {
   prisma: PrismaClient<Prisma.PrismaClientOptions, never, Prisma.RejectOnNotFound | Prisma.RejectPerOperation>
@@ -37,7 +37,7 @@ const startServer = async () => {
 
   await apolloServer.start()
 
-  apolloServer.applyMiddleware({ app, path: '/api' })
+  apolloServer.applyMiddleware({ app, path: '/' })
 
   app.get('/', (req, res) => {
     res.send('Hello, World')
@@ -46,7 +46,7 @@ const startServer = async () => {
   const port = process.env.PORT || 4000
   console.log('port', port)
 
-  httpServer.listen({ port }, () => console.log(`Server listening on port ${port}`))
+  httpServer.listen({ port }, () => console.log(`Server listening on port http://localhost:${port}`))
 }
 
 startServer()

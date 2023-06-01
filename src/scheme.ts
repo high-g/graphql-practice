@@ -4,10 +4,10 @@ import { gql } from 'apollo-server-express'
 
 export const typeDefs = gql`
   type Query {
-    books(filter: BooksInput): [Book!]!
+    books(isRead: Boolean!): [Book!]!
     book(id: Int!): Book
     categories: [Category!]!
-    category(id: ID!): Category
+    category(id: Int!): Category
   }
 
   type Mutation {
@@ -22,6 +22,7 @@ export const typeDefs = gql`
     author: String!
     createdAt: String!
     category: Category!
+    isRead: Boolean!
   }
 
   type Category {
@@ -35,10 +36,9 @@ export const typeDefs = gql`
   }
 
   input AddBookInput {
-    id: Int!
     title: String!
     author: String!
-    categoryId: String!
+    categoryId: Int!
     isRead: Boolean!
   }
 

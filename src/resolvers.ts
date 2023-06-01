@@ -1,11 +1,6 @@
 /** @format */
 
 import { Context } from './index'
-import { books, categories } from './database'
-
-type ArgType = {
-  id: number | string
-}
 
 type Book = {
   id: number
@@ -20,12 +15,6 @@ type Category = {
   name: string
 }
 
-type ArgFilterType = {
-  filter: {
-    isRead: boolean
-  }
-}
-
 type AddBookInput = {
   id: number
   title: string
@@ -35,33 +24,50 @@ type AddBookInput = {
 }
 
 export const Query = {
-  books: (_: any, __: any, { prisma }: Context) => {
-    return prisma.book.findMany()
+  books: (_: any, { isRead }: { isRead: boolean }, { prisma }: Context) => {
+    return prisma.book.findMany({
+      where: {
+        isRead,
+      },
+    })
   },
-  book: (_: any, args: ArgType) => {
-    const bookId = args.id
-    const book = books.find((book) => book.id === bookId)
-    if (!book) return null
-    return book
+  book: (_: any, { id }: { id: number }, { prisma }: Context) => {
+    return prisma.book.findUnique({
+      where: {
+        id,
+      },
+    })
   },
-  categories: () => categories,
-  category: (_: any, args: ArgType) => {
-    const categoryId = args.id
-    const category = categories.find((category) => category.id === categoryId)
-    if (!category) return null
-    return category
+  categories: (_: any, __: any, { prisma }: Context) => {
+    return prisma.category.findMany()
+  },
+  category: (_: any, { id }: { id: number }, { prisma }: Context) => {
+    return prisma.category.findUnique({
+      where: {
+        id,
+      },
+    })
   },
 }
 
+// Category側のidとBook側のcategoryIdの紐づけ
 export const Category = {
-  books: (parent: any, args: ArgType) => {
-    return books.filter((book) => book.categoryId === parent.id)
+  books: ({ id }: { id: number }, _: any, { prisma }: Context) => {
+    return prisma.book.findMany({
+      where: {
+        categoryId: id,
+      },
+    })
   },
 }
 
 export const Book = {
-  category: (parent: any, args: ArgType) => {
-    return categories.find((category) => category.id === parent.categoryId)
+  category: ({ categoryId }: { categoryId: number }, _: any, { prisma }: Context) => {
+    return prisma.category.findUnique({
+      where: {
+        id: categoryId,
+      },
+    })
   },
 }
 
