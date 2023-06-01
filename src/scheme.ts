@@ -11,7 +11,7 @@ export const typeDefs = gql`
   }
 
   type Mutation {
-    addBook(input: AddBookInput!): Book!
+    addBook(input: AddBookInput!): BookPayload!
     deleteBook(id: Int!): Boolean!
     updateBook(id: Int!, input: UpdateBookInput!): Book!
   }
@@ -29,6 +29,15 @@ export const typeDefs = gql`
     id: String!
     name: String!
     books: [Book!]!
+  }
+
+  type Error {
+    message: String!
+  }
+
+  type BookPayload {
+    errors: [Error!]!
+    book: Book
   }
 
   input BooksInput {

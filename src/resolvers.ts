@@ -6,21 +6,28 @@ type Book = {
   id: number
   title: string
   author: string
-  createdAt: string
   isRead: boolean
 }
 
 type Category = {
-  id: string
+  id: number
   name: string
 }
 
-type AddBookInput = {
-  id: number
-  title: string
-  author: string
-  categoryId: number
-  isRead: boolean
+type MutationBook = {
+  input: {
+    title: string
+    author: string
+    categoryId: number
+    isRead: boolean
+  }
+}
+
+type BookPayload = {
+  errors: {
+    message: string
+  }[]
+  book: Book | null
 }
 
 export const Query = {
@@ -72,21 +79,21 @@ export const Book = {
 }
 
 export const Mutation = {
-  addBook: (_: any, { input }: { input: AddBookInput }, { books }: { books: Book[] }) => {
-    console.log('[addBook] input: ', input)
-    console.log('[addBook] books: ', books)
-    const { id, title, author, categoryId, isRead } = input
-
-    const newBook = {
-      id,
-      title,
-      author,
-      categoryId,
-      isRead,
+  addBook: async (_: any, { input }: MutationBook, { prisma }: Context): Promise<BookPayload> => {
+    if (!input.title || !input.author || !input.categoryId || !input.isRead) {
+      return {
+        errors: [{ message: '本の内容を入力してください' }],
+        book: null,
+      }
     }
 
-    //books.push(newBook)
+    const newBook = await prisma.book.create({
+      data: input,
+    })
 
-    return newBook
+    return {
+      errors: [],
+      book: newBook,
+    }
   },
 }
