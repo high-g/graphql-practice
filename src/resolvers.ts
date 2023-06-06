@@ -96,4 +96,61 @@ export const Mutation = {
       book: newBook,
     }
   },
+  deleteBook: async (_: any, { id }: { id: number }, { prisma }: Context): Promise<BookPayload> => {
+    const book = await prisma.book.findUnique({
+      where: {
+        id,
+      },
+    })
+
+    if (!book) {
+      return {
+        errors: [{ message: '本が見つかりませんでした' }],
+        book: null,
+      }
+    }
+
+    await prisma.book.delete({
+      where: {
+        id,
+      },
+    })
+
+    return {
+      errors: [],
+      book,
+    }
+  },
+  updateBook: async (
+    _: any,
+    { id, input }: { id: number; input: MutationBook['input'] },
+    { prisma }: Context
+  ): Promise<BookPayload> => {
+    const book = await prisma.book.findUnique({
+      where: {
+        id,
+      },
+    })
+
+    if (!book) {
+      return {
+        errors: [{ message: '本が見つかりませんでした' }],
+        book: null,
+      }
+    }
+
+    const updatedBook = await prisma.book.update({
+      data: {
+        ...input,
+      },
+      where: {
+        id,
+      },
+    })
+
+    return {
+      errors: [],
+      book: updatedBook,
+    }
+  },
 }
